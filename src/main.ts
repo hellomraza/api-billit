@@ -2,9 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParsee from 'cookie-parser';
 import { AppModule } from './app.module';
-// import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
-// import { HttpErrorFilter } from './common/filters/http-error.filter';
-// import { GlobalValidationPipe } from './common/pipes/global-validation.pipe';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { HttpErrorFilter } from './common/filters/http-error.filter';
+import { GlobalValidationPipe } from './common/pipes/global-validation.pipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,10 +21,10 @@ async function bootstrap() {
   app.use(cookieParsee());
 
   // Global validation pipe with custom error formatting
-  // app.useGlobalPipes(new GlobalValidationPipe());
+  app.useGlobalPipes(new GlobalValidationPipe());
 
   // Global exception filters for consistent error responses (order matters: HTTP first, then general)
-  // app.useGlobalFilters(new HttpErrorFilter(), new GlobalExceptionFilter());
+  app.useGlobalFilters(new HttpErrorFilter(), new GlobalExceptionFilter());
 
   // Swagger Setup
   const config = new DocumentBuilder()
