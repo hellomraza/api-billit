@@ -1,9 +1,11 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -11,13 +13,13 @@ import { RequestLoggingMiddleware } from './common/middleware/request-logging.mi
       isGlobal: true,
       envFilePath: '.env',
     }),
-    // MongooseModule.forRoot(
-    //   process.env.MONGODB_URI || 'mongodb://localhost:27017/billit',
-    //   {
-    //     serverSelectionTimeoutMS: 5000,
-    //   },
-    // ),
-    // DatabaseModule,
+    MongooseModule.forRoot(
+      process.env.MONGODB_URI || 'mongodb://localhost:27017/billit',
+      {
+        serverSelectionTimeoutMS: 5000,
+      },
+    ),
+    DatabaseModule,
     // AuthModule,
     // DraftModule,
     // OnboardingModule,
