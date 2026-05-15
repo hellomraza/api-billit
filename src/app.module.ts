@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
-import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -19,7 +18,7 @@ import { DatabaseModule } from './database/database.module';
         serverSelectionTimeoutMS: 5000,
       },
     ),
-    DatabaseModule,
+    // DatabaseModule,
     // AuthModule,
     // DraftModule,
     // OnboardingModule,
