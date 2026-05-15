@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from './database/database.module';
+import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
+import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { DatabaseModule } from './database/database.module';
     //     serverSelectionTimeoutMS: 5000,
     //   },
     // ),
-    DatabaseModule,
+    // DatabaseModule,
     // AuthModule,
     // DraftModule,
     // OnboardingModule,
@@ -36,11 +37,12 @@ import { DatabaseModule } from './database/database.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  // configure(consumer: MiddlewareConsumer) {
-  //   // Apply request logging middleware first (for all requests)
-  //   consumer.apply(RequestLoggingMiddleware).forRoutes('*');
-  //   // Apply rate limiting middleware to all routes
-  //   consumer.apply(RateLimitMiddleware).forRoutes('*');
-  // }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // Apply request logging middleware first (for all requests)
+    consumer.apply(RequestLoggingMiddleware).forRoutes('*');
+
+    // Apply rate limiting middleware to all routes
+    consumer.apply(RateLimitMiddleware).forRoutes('*');
+  }
 }
