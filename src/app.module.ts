@@ -1,4 +1,4 @@
-import { Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -36,7 +36,7 @@ import { DatabaseModule } from './database/database.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
+export class AppModule {
   // configure(consumer: MiddlewareConsumer) {
   //   // Apply request logging middleware first (for all requests)
   //   consumer.apply(RequestLoggingMiddleware).forRoutes('*');
